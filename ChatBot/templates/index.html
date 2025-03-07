@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>CareerGuide Pro Chatbot</title>
+  <link rel="icon" href="{{ url_for('static', filename='images/icon.png') }}" type="image" sizes="16x16">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles/style.css') }}">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/bootstrap/css/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Catamaran:100,200,300,400,500,600,700,800,900">
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/Login-Form-Dark.css') }}">
+</head>
+
+<body>
+  <section class="msger">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <a class="navbar-brand" href="#" style="color: white;">
+        &emsp;<i class="fas fa-graduation-cap"></i> <b> &nbsp; CareerGuide Pro &emsp; </b>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item active"><a class="nav-link" href="/index">Home</a></li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="modal" data-target="#exampleModalScrollable" href="#"> About Us </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" data-toggle="modal" data-target="#exampleModal" href="#">Suggestion box</a>
+          </li>
+          <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible" id="alert" role="alert">
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+      </button>
+      <strong>{{ message }}</strong>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+
+    <main class="msger-chat" style="color: white;">
+      <br>
+      <div class="msg left-msg">       
+        <div class="msg-img" style="background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSByXho41yToOFz5UcHHwct3X-OWwkft_akfA&usqp=CAU)">
+        </div>
+        <div class="msg-bubble">
+          <div class="msg-info">
+            <div class="msg-info-name"><b>CareerGuide Pro</b></div>
+          </div>      
+          <div class="msg-text" style="color: white;">
+            <b>Hello! I'm CareerGuide Pro. 🤖 How can I assist you with college information today?
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <form class="msger-inputarea">
+      <input type="text" class="msger-input" id="textInput" placeholder="Enter your message...">
+      <button type="submit" class="msger-send-btn">Send</button>
+    </form>
+  </section>
+
+  <!-- About Us Modal -->
+  <div class="modal fade" id="exampleModalScrollable" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalScrollableTitle">About CareerGuide Pro</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <h4>Your Career Guidance Assistant</h4>
+          <p>CareerGuide Pro is an AI-powered chatbot designed to help students and professionals make informed decisions about their educational and career paths. Our system provides:</p>
+          <ul>
+            <li>College admission information</li>
+            <li>Course recommendations</li>
+            <li>Career path suggestions</li>
+            <li>Admission requirement details</li>
+            <li>Scholarship information</li>
+            <li>University comparisons</li>
+          </ul>
+          <p><strong>Version:</strong> 1.0.0<br>
+          <strong>Developed by:</strong> CareerGuide Pro Team</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Suggestion Box Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Your Suggestions</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action='/suggestion' method='POST'>
+            <div class="form-group">
+              <input type="email" name='uemail' class='form-control' placeholder="Email" required>
+              <br>
+              <textarea class="form-control" id="message-text" placeholder="Enter your suggestion..." name="message" required></textarea>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="Submit" class="btn btn-primary" data-target="#alert">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Message handling
+    const msgerForm = document.querySelector(".msger-inputarea");
+    const msgerInput = document.querySelector(".msger-input");
+    const msgerChat = document.querySelector(".msger-chat");
+
+    const BOT_IMG = "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSByXho41yToOFz5UcHHwct3X-OWwkft_akfA&usqp=CAU";
+    const PERSON_IMG = "https://image.flaticon.com/icons/svg/145/145867.svg";
+    const BOT_NAME = "CareerGuide Pro";
+    const PERSON_NAME = "You";
+
+    msgerForm.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      const msgText = msgerInput.value.trim();
+      if (!msgText) return;
+
+      appendMessage(PERSON_NAME, PERSON_IMG, "right", msgText);
+      msgerInput.value = "";
+      
+      try {
+        const response = await fetch("/get_response", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ message: msgText }),
+        });
+        
+        const data = await response.json();
+        appendMessage(BOT_NAME, BOT_IMG, "left", data.response);
+      } catch (error) {
+        console.error("Error:", error);
+        appendMessage(BOT_NAME, BOT_IMG, "left", "Sorry, I'm having trouble connecting to the server.");
+      }
+    });
+
+    function appendMessage(name, img, side, text) {
+      const msgHTML = `
+        <div class="msg ${side}-msg">
+          <div class="msg-img" style="background-image: url(${img})"></div>
+          <div class="msg-bubble">
+            <div class="msg-info">
+              <div class="msg-info-name">${name}</div>
+              <div class="msg-info-time">${formatDate(new Date())}</div>
+            </div>
+            <div class="msg-text">${text}</div>
+          </div>
+        </div>
+      `;
+      msgerChat.insertAdjacentHTML("beforeend", msgHTML);
+      msgerChat.scrollTop += 500;
+    }
+
+    function formatDate(date) {
+      const h = "0" + date.getHours();
+      const m = "0" + date.getMinutes();
+      return `${h.slice(-2)}:${m.slice(-2)}`;
+    }
+
+    // Alert handling
+    $("#alert").delay(3000).slideUp(200, function() {
+      $(this).alert('close');
+    });
+
+    // Feedback submission handling
+    document.getElementById('submitFeedback').addEventListener('click', function () {
+      const feedbackMessage = document.getElementById('message-text').value;
+
+      // Validate feedback message
+      if (!feedbackMessage) {
+        alert('Please enter your feedback before submitting.');
+        return;
+      }
+
+      // Send feedback to the server
+      fetch('/submit_feedback', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ message: feedbackMessage }),
+      })
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'success') {
+            alert('Thank you for your feedback!');
+            $('#exampleModal').modal('hide'); // Close the modal
+            document.getElementById('message-text').value = ''; // Clear the textarea
+          } else {
+            alert('Failed to submit feedback. Please try again.');
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+          alert('An error occurred while submitting feedback.');
+        });
+    });
+  </script>
+
+  <!-- Bootstrap JS -->
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>
